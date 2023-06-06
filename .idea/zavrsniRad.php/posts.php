@@ -27,13 +27,18 @@
 $sql = "SELECT * FROM posts ORDER BY Created_at DESC";
 $statement = $connection->prepare($sql);
 $statement->execute();
-$post = $statement->setFetchMode(PDO::FETCH_ASSOC);
+$posts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 // Displaying posts on a page
-foreach ($posts as $post) {
-    echo '<h2><a href="single-post.php?id=' . $post['Id'] . '">' . $post['Title'] . '</a></h2>';
-    echo '<p>' . $post['Body'] . '</p>';
-    echo '<p>Author: ' . $post['Author'] . '</p>';
-    echo '<hr>';
-}
+
+if (!empty($posts)) {
+    foreach ($posts as $post) {
+        echo "<h2>" . $post['Title'] . "</h2>";
+        echo "<p>" . $post['Body'] . "</p>";
+        echo "<p>Author: " . $post['Author'] . "</p>";
+        echo "<p>Created_at: " . $post['Created_at'] . "</p>"; }
+    } else {
+        echo "No results";
+    }
+
 ?>
