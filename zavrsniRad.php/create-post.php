@@ -13,10 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   //Preparing a SQL query to enter a new post
   $query = $conn->prepare('INSERT INTO posts (Title, Body, Author) VALUES (:title, :body, :author)');
-  $query->bindParam(':title', $title);
-  $query->bindParam(':body', $body);
-  $query->bindParam(':author', $author);
-  $query->execute();
+  $statementInsert = $connection->prepare($sqlInsert);
+  $statementInsert->execute();
+  $statementInsert->setFetchMode(PDO::FETCH_ASSOC);
 
   //Redirection to all posts
   header('Location: posts.php');
